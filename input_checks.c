@@ -19,3 +19,12 @@ int	an_arg_is_not_correct(char **av)
 	}
 	return (0);
 }
+
+int	wrong_input(int ac, char **av)
+{
+	if (!(ac == 5 || ac == 6))
+		return (1);
+	if (an_arg_is_not_correct(av))
+		return (1);
+	return (0);
+}
