@@ -1,0 +1,3 @@
+//Usleep take microseconds and u have the time in milliseconds
+//Check if there is a number of times philos have to eat
+//Do a proper cleanup/exit function

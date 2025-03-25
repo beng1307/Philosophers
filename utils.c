@@ -1,5 +1,23 @@
 #include "philo.h"
 
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*memp;
+
+	if (!nmemb || !size)
+		return (malloc(0));
+	if (nmemb * size <= SIZE_MAX)
+	{
+		memp = malloc(nmemb * size);
+		if (memp == NULL)
+			return (NULL);
+		ft_bzero(memp, nmemb * size);
+	}
+	else
+		return (NULL);
+	return (memp);
+}
+
 inline bool	is_not_a_digit(char character)
 {
 	return (!(character >= '0' && character <= '9'));
@@ -22,7 +40,7 @@ size_t	philo_atoi(const char *str)
 	number = 0;
 	while (*str)
 	{
-		if (number > (SIZE_MAX - (*str - '0') / 10))
+		if (number > (SIZE_MAX - (*str - '0') / 10)) //Maybe it should be a *
 			return (SIZE_MAX);
 		number = number * 10 + (*str++ - '0');
 	}
