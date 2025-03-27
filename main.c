@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	philos_life(void *philosophers_data)
+static void	*philos_life(void *philosophers_data)
 {
 	t_philosophers	**philosophers;
 	t_philo			*curr_philo;
@@ -15,11 +15,12 @@ void	philos_life(void *philosophers_data)
 		sleeping(philosophers, curr_philo);
 		thinking(philosophers, curr_philo);
 	}
+	return (NULL);
 }
 
-void	philo_while_loop(t_philosophers **philosophers)
+static void	philo_while_loop(t_philosophers **philosophers)
 {
-	int		index;
+	size_t	index;
 	bool	already_done;
 
 	index = 0;
@@ -30,20 +31,13 @@ void	philo_while_loop(t_philosophers **philosophers)
 		{
 			if (!already_done)
 				already_done = true;
-			pthread_create((*philosophers)->philo->philosopher, NULL, philos_life, (void *)philosophers);
+			pthread_create(&(*philosophers)->philo->philosopher, NULL, philos_life, (void *)philosophers);
+			usleep(20);
 			(*philosophers)->philo = (*philosophers)->philo->next;
 			index++;
 		}
 		if (!all_alive(philosophers))
 			break ;
-	}
-	//make a own cleanup function out of this
-	index = 0;
-	while (index < (*philosophers)->number_of_philosophers)
-	{
-		pthread_join((*philosophers)->philo->philosopher, NULL);
-		(*philosophers)->philo = (*philosophers)->philo->next;
-		index++;
 	}
 }
 
@@ -54,9 +48,14 @@ int	main(int ac, char **av)
 	philosophers = ft_calloc(sizeof(t_philosophers) + 1, 1);
 	if (!philosophers)
 		return (error_message("Allocation failed!"), 1);
-	if (wrong_input(ac, av))
-		return (error_message("Put only numbers!"), 1); //free philosophers here or change order
+	if (wrong_input(ac, &av[1]))
+		return (free(philosophers), error_message("Put only numbers!"), 1);
 	if (parse_and_init_philo(&philosophers, av) == 1)
 		return (error_message("Input not valid!"), 1);
 	philo_while_loop(&philosophers);
+
+
+	clean_up(&philosophers);
+	free_philos(philosophers->philo);
+	free(philosophers);
 }

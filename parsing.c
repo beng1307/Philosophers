@@ -46,7 +46,7 @@ int	parse_and_init_philo(t_philosophers **philosophers, char **av)
 	(*philosophers)->philo_dead = false;
 	(*philosophers)->philo = create_philos((*philosophers)->number_of_philosophers);
 	if (!(*philosophers)->philo)
-		return (clean_exit());
+		return (1);
 
 	return (number_validation(philosophers));
 }

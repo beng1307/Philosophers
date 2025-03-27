@@ -28,7 +28,7 @@ void	eating(t_philosophers **philosophers, t_philo *philo)
 	if (!(*philosophers)->philo_dead)
 		printf("%zu %d is eating\n", timestamp_in_ms(), philo->id);
 	philo->last_meal_time = timestamp_in_ms();
-	usleep((*philosophers)->time_to_eat);
+	usleep((*philosophers)->time_to_eat * 1000);
 	
 	//philo finished eating
 	pthread_mutex_unlock(philo->fork);
@@ -40,7 +40,7 @@ void	sleeping(t_philosophers **philosophers, t_philo *philo)
 	//start sleeping
 	if (!(*philosophers)->philo_dead)
 		printf("%zu %d is sleeping\n", timestamp_in_ms(), philo->id);
-	usleep((*philosophers)->time_to_sleep);
+	usleep((*philosophers)->time_to_sleep * 1000);
 	//finished sleeping
 }
 

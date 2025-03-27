@@ -4,9 +4,13 @@ t_philo *ft_newphilo(int id)
 {
 	t_philo *new_philo;
 
-    new_philo = malloc(sizeof(t_philo));
-    if (!new_philo)
-        return (NULL);
+    new_philo = ft_calloc(1, sizeof(t_philo));
+	if (!new_philo)
+		return (NULL);
+	new_philo->fork = ft_calloc(1, sizeof(pthread_mutex_t));
+	if (!new_philo->fork)
+		return (NULL);
+
     new_philo->id = id;
     new_philo->next = NULL;
 	new_philo->prev = NULL;
@@ -24,7 +28,7 @@ t_philo	*ft_last_philo(t_philo *philo)
 	if (!philo)
 		return (NULL);
 	last_philo = philo;
-	while (last_philo)
+	while (last_philo->next)
 		last_philo = last_philo->next;
 	return (last_philo);
 }

@@ -1,5 +1,20 @@
 #include "philo.h"
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	char	*terminate;
+
+	i = 0;
+	terminate = (char *)s;
+	while (i < n)
+	{
+		*terminate = '\0';
+		terminate++;
+		i++;
+	}
+}
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*memp;
@@ -18,7 +33,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (memp);
 }
 
-inline bool	is_not_a_digit(char character)
+bool	is_not_a_digit(char character)
 {
 	return (!(character >= '0' && character <= '9'));
 }

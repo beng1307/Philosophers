@@ -11,7 +11,7 @@ int	an_arg_is_not_correct(char **av)
 	{
 		while (av[index2])
 		{
-			if (is_not_a_digit(av[index2]))
+			if (is_not_a_digit(*av[index2]))
 				return (1);
 			index2++;
 		}
