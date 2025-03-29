@@ -8,6 +8,7 @@ static void	*philos_life(void *philosophers_data)
 	philosophers = (t_philosophers **)philosophers_data;
 	curr_philo = (*philosophers)->philo;
 	curr_philo->last_meal_time = timestamp_in_ms();
+	//start if bool sim start is true
 	while (1)
 	{
 		take_fork(philosophers, curr_philo);
@@ -35,8 +36,10 @@ static void	philo_while_loop(t_philosophers **philosophers)
 			(*philosophers)->philo = (*philosophers)->philo->next;
 			index++;
 		}
+		//bool sim start
 		if (!all_alive(philosophers))
 			break ;
+		//uslpee(100)
 	}
 }
 

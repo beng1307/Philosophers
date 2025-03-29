@@ -42,11 +42,12 @@ int	parse_and_init_philo(t_philosophers **philosophers, char **av)
 	(*philosophers)->time_to_die = philo_atoi(av[2]);
 	(*philosophers)->time_to_eat = philo_atoi(av[3]);
 	(*philosophers)->time_to_sleep = philo_atoi(av[4]);
-	(*philosophers)->times_phils_have_to_eat = philo_atoi(av[4]); //check if its even there as input
+	(*philosophers)->times_phils_have_to_eat = philo_atoi(av[4]);
 	(*philosophers)->philo_dead = false;
 	(*philosophers)->philo = create_philos((*philosophers)->number_of_philosophers);
 	if (!(*philosophers)->philo)
 		return (1);
-
+	//MUTEXINIT(new_philo->mainstruct->mutex->PRINT)
+	//MUTEXINIT(new_philo->mainstruct->mutex->LAstsmealtime)
 	return (number_validation(philosophers));
 }
