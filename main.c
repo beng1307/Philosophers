@@ -32,7 +32,6 @@ static void	philo_while_loop(t_philosophers **philosophers)
 			if (!already_done)
 				already_done = true;
 			pthread_create(&(*philosophers)->philo->philosopher, NULL, philos_life, (void *)philosophers);
-			usleep(20);
 			(*philosophers)->philo = (*philosophers)->philo->next;
 			index++;
 		}
