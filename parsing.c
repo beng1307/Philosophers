@@ -45,14 +45,17 @@ int	parse_and_init_philo(t_data **data, char **av)
 	(*data)->times_phils_have_to_eat = philo_atoi(av[4]);
 	(*data)->philo_dead = false;
 	(*data)->dining_started = false;
-	(*data)->mutex = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (!(*data)->mutex)
-		return (1);
+
+	if (pthread_mutex_init(&(*data)->print_mutex, NULL) != 0)
+		return (clean_up(data), 1);
+	if (pthread_mutex_init(&(*data)->time_to_eat_mutex, NULL) != 0)
+		return (clean_up(data), 1);
+	if (pthread_mutex_init(&(*data)->philo_dead_mutex, NULL) != 0)
+		return (clean_up(data), 1);
+
 	(*data)->philo = create_philos((*data)->number_of_data);
 	if (!(*data)->philo)
-		return (free((*data)->mutex), 1);
-	pthread_mutex_init((*data)->mutex, NULL);
-	pthread_mutex_init();
+		return (clean_up(data), 1);
 
 	return (number_validation(data));
 }

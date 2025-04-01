@@ -17,7 +17,7 @@ typedef struct	s_philo
 	pthread_t		philosopher;
 	int				id;
 
-	pthread_mutex_t	*fork;
+	pthread_mutex_t	fork;
 	size_t			last_meal_time;
 
 	struct s_philo	*prev;
@@ -28,9 +28,9 @@ typedef struct	s_data
 {
 	t_philo			*philo;
 	
-	pthread_mutex_t	*mutex;
-	pthread_mutex_t	*time_to_eat_mutex;
-	pthread_mutex_t	*philo_dead_mutex;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	time_to_eat_mutex;
+	pthread_mutex_t	philo_dead_mutex;
 
 	size_t			number_of_data;
 	size_t			time_to_die;
@@ -44,6 +44,7 @@ typedef struct	s_data
 
 
 // Utils
+void		free_that(char **to_free);
 size_t		ft_strlen(char *str);
 size_t		philo_atoi(const char *str);
 void		*ft_calloc(size_t nmemb, size_t size);

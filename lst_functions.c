@@ -7,14 +7,12 @@ t_philo *ft_newphilo(int id)
     new_philo = ft_calloc(1, sizeof(t_philo));
 	if (!new_philo)
 		return (NULL);
-	new_philo->fork = ft_calloc(1, sizeof(pthread_mutex_t));
-	if (!new_philo->fork)
-		return (NULL);
-
+	if (pthread_mutex_init(&new_philo->fork, NULL) != 0)
+		return (free_that(new_philo), NULL);
     new_philo->id = id;
     new_philo->next = NULL;
 	new_philo->prev = NULL;
-	if (pthread_mutex_init(new_philo->fork, NULL) != 0)
+	if (pthread_mutex_init(&new_philo->fork, NULL) != 0)
 		return (free(new_philo), NULL);
 
     return (new_philo);
@@ -38,7 +36,7 @@ int    philo_add_back(t_philo **philo_list, t_philo *new_philo)
 
 	if (!philo_list || !new_philo)
 		return (1);
-    if (!*philo_list)
+	if (!*philo_list)
 		*philo_list = new_philo;
 	else
 	{
