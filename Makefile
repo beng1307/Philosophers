@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -g -Wall -Werror -Wextra -pthread
 
 # Name des Programms
-PHILOSOPHERS = philo
+data = philo
 
 # Quell- und Objektdateien
 SRC_DIR = src
@@ -18,8 +18,8 @@ OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 HEADERS = philo.h
 
 # Regel zur Erstellung des Binärprogramms
-$(PHILOSOPHERS): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(PHILOSOPHERS)
+$(data): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(data)
 
 # Regel zur Erstellung der .o-Dateien im obj-Ordner
 $(OBJ_DIR)/%.o: %.c $(HEADERS)
@@ -27,7 +27,7 @@ $(OBJ_DIR)/%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Standard-Build
-all: $(PHILOSOPHERS)
+all: $(data)
 
 # Aufräumen der Objektdateien
 clean:
@@ -35,7 +35,7 @@ clean:
 
 # Komplettes Aufräumen inkl. Binary
 fclean: clean
-	@rm -f $(PHILOSOPHERS)
+	@rm -f $(data)
 
 # Neu kompilieren
 re: fclean all

@@ -69,3 +69,11 @@ size_t timestamp_in_ms(void)
 	gettimeofday(&curr_time, NULL);
 	return ((curr_time.tv_sec * 1000) + (curr_time.tv_usec / 1000));
 }
+
+void	safe_printf(t_data **data, t_philo *philo, char *str)
+{
+ 	pthread_mutex_lock((*data)->mutex);
+	if (!(*data)->philo_dead)
+		printf("%zu %d %s\n", timestamp_in_ms(), philo->id, str);
+ 	pthread_mutex_unlock((*data)->mutex);
+}

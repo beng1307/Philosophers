@@ -17,15 +17,15 @@ void    free_philos(t_philo *philos)
     }
 }
 
-void	clean_up(t_philosophers **philosophers)
+void	clean_up(t_data **data)
 {
     size_t  index;
 
     index = 0;
-	while (index < (*philosophers)->number_of_philosophers)
+	while (index < (*data)->number_of_data)
 	{
-		pthread_join((*philosophers)->philo->philosopher, NULL);
-		(*philosophers)->philo = (*philosophers)->philo->next;
+		pthread_join((*data)->philo->philosopher, NULL);
+		(*data)->philo = (*data)->philo->next;
 		index++;
 	}
 }
