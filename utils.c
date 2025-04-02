@@ -71,14 +71,14 @@ size_t timestamp_in_ms(void)
 }
 
 void	safe_printf(t_data **data, t_philo *philo, char *str)
-{
+{ 
  	pthread_mutex_lock(&(*data)->print_mutex);
 	if (!(*data)->philo_dead)
-		printf("%zu %d %s\n", timestamp_in_ms(), philo->id, str);
+		printf("%zu %d %s\n", timestamp_in_ms() - (*data)->starting_time, philo->id, str);
  	pthread_mutex_unlock(&(*data)->print_mutex);
 }
 
-void	free_that(char **to_free)
+void	free_that(void **to_free)
 {
 	if (*to_free)
 	{

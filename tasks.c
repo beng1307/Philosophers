@@ -2,46 +2,64 @@
 
 void	thinking(t_data **data, t_philo *philo)
 {
+	pthread_mutex_lock(&(*data)->philo_dead_mutex);
 	if (!(*data)->philo_dead)
-		printf("%zu %d is thinking\n", timestamp_in_ms(), philo->id);
+		safe_printf(data, philo, "is thinking");
+	pthread_mutex_unlock(&(*data)->philo_dead_mutex);
 }
 
 void	take_fork(t_data **data, t_philo *philo)
 {
-	pthread_mutex_lock(philo->fork);
-	pthread_mutex_lock(philo->next->fork);
-	//IF TRYING TO ACCES A VALUE IN MAIN STRUCT FROM THREAD LIKE PHILO DEAD, MUTEX LOCK MUTEX UNLOCK
+	if ((size_t)philo->id == (*data)->number_of_philos)
+	{
+		pthread_mutex_lock(&philo->next->fork);
+		pthread_mutex_lock(&philo->fork);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->fork);
+		pthread_mutex_lock(&philo->next->fork);
+	}
+
+	pthread_mutex_lock(&(*data)->philo_dead_mutex);
 	if (!(*data)->philo_dead)
-		printf("%zu %d has taken fork\n", timestamp_in_ms(), (*data)->philo->id);
+		safe_printf(data, philo, "has taken fork");
+	pthread_mutex_unlock(&(*data)->philo_dead_mutex);
 }
 
 void	eating(t_data **data, t_philo *philo)
 {
+	pthread_mutex_lock(&(*data)->philo_dead_mutex);
 	if (!(*data)->philo_dead)
-		printf("%zu %d is eating\n", timestamp_in_ms(), philo->id);
-	//mutx
+		safe_printf(data, philo, "is eating");
+	pthread_mutex_unlock(&(*data)->philo_dead_mutex);
+
+	pthread_mutex_lock(&(*data)->last_meal_time_mutex);
 	philo->last_meal_time = timestamp_in_ms();
-	//unlock
+	pthread_mutex_unlock(&(*data)->last_meal_time_mutex);
+
 	usleep((*data)->time_to_eat * 1000);
-	pthread_mutex_unlock(philo->fork);
-	pthread_mutex_unlock(philo->next->fork);
+
+	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->next->fork);
 }
 
 void	sleeping(t_data **data, t_philo *philo)
 {
-	//start sleeping
+	pthread_mutex_lock(&(*data)->philo_dead_mutex);
 	if (!(*data)->philo_dead)
-		printf("%zu %d is sleeping\n", timestamp_in_ms(), philo->id);
+		safe_printf(data, philo, "is sleeping");
+	pthread_mutex_unlock(&(*data)->philo_dead_mutex);
+
 	usleep((*data)->time_to_sleep * 1000);
-	//finished sleeping
 }
 
 void	died(t_data **data, t_philo *philo)
 {
-	//MUTEX
+	pthread_mutex_lock(&(*data)->philo_dead_mutex);
 	(*data)->philo_dead = true;
-	//MUTEX UNLOCK
-	printf("%zu %d died\n", timestamp_in_ms(), philo->id);
+	pthread_mutex_unlock(&(*data)->philo_dead_mutex);
+	safe_printf(data, philo, "died");
 }
 
 bool	all_alive(t_data **data)
@@ -51,15 +69,14 @@ bool	all_alive(t_data **data)
 
 	philos = (*data)->philo;
 	index = 0;
-	while (index < (*data)->number_of_data)
+	while (index < (*data)->number_of_philos)
 	{
-		//lock
+		pthread_mutex_lock(&(*data)->last_meal_time_mutex);
 		if (timestamp_in_ms() - philos->last_meal_time > (*data)->time_to_die)
-			return (died(data, philos), false);
-		//unlock mealtime
+			return (pthread_mutex_unlock(&(*data)->last_meal_time_mutex), died(data, philos), false);
+		pthread_mutex_unlock(&(*data)->last_meal_time_mutex);
 		philos = philos->next;
+		index++;
 	}
 	return (true);
 }
-
-

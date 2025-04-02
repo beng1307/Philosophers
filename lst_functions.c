@@ -8,12 +8,12 @@ t_philo *ft_newphilo(int id)
 	if (!new_philo)
 		return (NULL);
 	if (pthread_mutex_init(&new_philo->fork, NULL) != 0)
-		return (free_that(new_philo), NULL);
+		return (free_that((void **)new_philo), NULL);
     new_philo->id = id;
     new_philo->next = NULL;
 	new_philo->prev = NULL;
 	if (pthread_mutex_init(&new_philo->fork, NULL) != 0)
-		return (free(new_philo), NULL);
+		return (free_that((void **)new_philo), NULL);
 
     return (new_philo);
 }

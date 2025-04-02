@@ -5,13 +5,10 @@ static void	*philos_life(void *data_content)
 	t_data	**data;
 	t_philo	*curr_philo;
 
+	
 	data = (t_data **)data_content;
 	curr_philo = (*data)->philo;
-	curr_philo->last_meal_time = timestamp_in_ms();
-
-	while (!(*data)->dining_started);
-
-	usleep(curr_philo->id * 1000);
+	curr_philo->last_meal_time = timestamp_in_ms();	
 
 	while (1)
 	{
@@ -28,15 +25,19 @@ static void	philo_while_loop(t_data **data)
 	size_t	index;
 
 	index = 0;
+	(*data)->starting_time = timestamp_in_ms();
 	while (1)
 	{
-		while (index < (*data)->number_of_data)
+		while (index < (*data)->number_of_philos)
 		{
 			pthread_create(&(*data)->philo->philosopher, NULL, philos_life, (void *)data);
+			usleep(10);
 			(*data)->philo = (*data)->philo->next;
-			index++;
+			index++;		
 		}
-		(*data)->dining_started = true;
+
+
+		// (*data)->dining_started = true;
 		// if (!all_alive(data))
 		// 	break ;
 	}

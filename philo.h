@@ -27,31 +27,31 @@ typedef struct	s_philo
 typedef struct	s_data
 {
 	t_philo			*philo;
-	
+
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	last_meal_time_mutex;
 	pthread_mutex_t	time_to_eat_mutex;
 	pthread_mutex_t	philo_dead_mutex;
 
-	size_t			number_of_data;
+	size_t			number_of_philos;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			times_phils_have_to_eat;
+	size_t			starting_time;
 
-	bool			dining_started;
 	bool			philo_dead;
 }					t_data;
 
 
 // Utils
-void		free_that(char **to_free);
+void		free_that(void **to_free);
 size_t		ft_strlen(char *str);
 size_t		philo_atoi(const char *str);
 void		*ft_calloc(size_t nmemb, size_t size);
 size_t 		timestamp_in_ms(void);
 bool		is_not_a_digit(char character);
 void		safe_printf(t_data **data, t_philo *philo, char *str);
-
 
 
 // Error handling

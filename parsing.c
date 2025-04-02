@@ -22,7 +22,7 @@ t_philo	*create_philos(size_t number_of_data)
 
 static int number_validation(t_data **data)
 {
-	if ((*data)->number_of_data < 1)
+	if ((*data)->number_of_philos < 1)
 		return (1);
 	if ((*data)->time_to_die < 1)
 		return (1);
@@ -38,13 +38,12 @@ static int number_validation(t_data **data)
 
 int	parse_and_init_philo(t_data **data, char **av)
 {
-	(*data)->number_of_data = philo_atoi(av[1]);
+	(*data)->number_of_philos = philo_atoi(av[1]);
 	(*data)->time_to_die = philo_atoi(av[2]);
 	(*data)->time_to_eat = philo_atoi(av[3]);
 	(*data)->time_to_sleep = philo_atoi(av[4]);
 	(*data)->times_phils_have_to_eat = philo_atoi(av[4]);
 	(*data)->philo_dead = false;
-	(*data)->dining_started = false;
 
 	if (pthread_mutex_init(&(*data)->print_mutex, NULL) != 0)
 		return (clean_up(data), 1);
@@ -52,8 +51,10 @@ int	parse_and_init_philo(t_data **data, char **av)
 		return (clean_up(data), 1);
 	if (pthread_mutex_init(&(*data)->philo_dead_mutex, NULL) != 0)
 		return (clean_up(data), 1);
+	if (pthread_mutex_init(&(*data)->last_meal_time_mutex, NULL) != 0)
+		return (clean_up(data), 1);
 
-	(*data)->philo = create_philos((*data)->number_of_data);
+	(*data)->philo = create_philos((*data)->number_of_philos);
 	if (!(*data)->philo)
 		return (clean_up(data), 1);
 
