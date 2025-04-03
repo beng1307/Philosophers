@@ -1,21 +1,18 @@
 #include "philo.h"
 
-static void	*philos_life(void *data_content)
+static void	*philos_life(void *philo)
 {
-	t_data	**data;
 	t_philo	*curr_philo;
-
 	
-	data = (t_data **)data_content;
-	curr_philo = (*data)->philo;
+	curr_philo = (t_philo *)philo;
 	curr_philo->last_meal_time = timestamp_in_ms();	
 
 	while (1)
 	{
-		take_fork(data, curr_philo);
-		eating(data, curr_philo);
-		sleeping(data, curr_philo);
-		thinking(data, curr_philo);
+		take_fork(curr_philo);
+		eating(curr_philo);
+		sleeping(curr_philo);
+		thinking(curr_philo);
 	}
 	return (NULL);
 }
@@ -30,8 +27,8 @@ static void	philo_while_loop(t_data **data)
 	{
 		while (index < (*data)->number_of_philos)
 		{
-			pthread_create(&(*data)->philo->philosopher, NULL, philos_life, (void *)data);
-			usleep(10);
+			pthread_create(&(*data)->philo->philosopher, NULL, philos_life, (void *)(*data)->philo);
+			// usleep(1);
 			(*data)->philo = (*data)->philo->next;
 			index++;		
 		}

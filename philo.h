@@ -22,6 +22,20 @@ typedef struct	s_philo
 
 	struct s_philo	*prev;
 	struct s_philo	*next;
+
+
+	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*last_meal_time_mutex;
+	pthread_mutex_t	*philo_dead_mutex;
+	size_t			*number_of_philos;
+	size_t			*time_to_eat;
+	size_t			*time_to_sleep;
+	size_t			*time_to_die;
+	size_t			*times_phils_have_to_eat;
+	size_t			*starting_time;
+	bool			*philo_dead;
+
+
 }					t_philo;
 
 typedef struct	s_data
@@ -30,7 +44,6 @@ typedef struct	s_data
 
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	last_meal_time_mutex;
-	pthread_mutex_t	time_to_eat_mutex;
 	pthread_mutex_t	philo_dead_mutex;
 
 	size_t			number_of_philos;
@@ -51,7 +64,7 @@ size_t		philo_atoi(const char *str);
 void		*ft_calloc(size_t nmemb, size_t size);
 size_t 		timestamp_in_ms(void);
 bool		is_not_a_digit(char character);
-void		safe_printf(t_data **data, t_philo *philo, char *str);
+void		safe_printf(t_philo *philo, char *str);
 
 
 // Error handling
@@ -68,16 +81,17 @@ int	    philo_add_back(t_philo **philo_list, t_philo *new_philo);
 
 
 // Tasks
-void	thinking(t_data **data, t_philo *philo);
-void	take_fork(t_data **data, t_philo *philo);
-void	eating(t_data **data, t_philo *philo);
-void	sleeping(t_data **data, t_philo *philo);
-void	died(t_data **data, t_philo *philo);
+void	thinking(t_philo *philo);
+void	take_fork(t_philo *philo);
+void	eating(t_philo *philo);
+void	sleeping(t_philo *philo);
+void	died(t_philo *philo);
 bool	all_alive(t_data **data);
 
 
 // Parsing
 int		parse_and_init_philo(t_data **data, char **av);
+
 
 
 // Clean up

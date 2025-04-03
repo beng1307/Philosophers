@@ -70,12 +70,12 @@ size_t timestamp_in_ms(void)
 	return ((curr_time.tv_sec * 1000) + (curr_time.tv_usec / 1000));
 }
 
-void	safe_printf(t_data **data, t_philo *philo, char *str)
+void	safe_printf(t_philo *philo, char *str)
 { 
- 	pthread_mutex_lock(&(*data)->print_mutex);
-	if (!(*data)->philo_dead)
-		printf("%zu %d %s\n", timestamp_in_ms() - (*data)->starting_time, philo->id, str);
- 	pthread_mutex_unlock(&(*data)->print_mutex);
+ 	pthread_mutex_lock(philo->print_mutex);
+	if (!*philo->philo_dead)
+		printf("%zu %d %s\n", timestamp_in_ms() - *philo->starting_time, philo->id, str);
+ 	pthread_mutex_unlock(philo->print_mutex);
 }
 
 void	free_that(void **to_free)
