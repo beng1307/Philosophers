@@ -23,20 +23,16 @@ static void	philo_while_loop(t_data **data)
 
 	index = 0;
 	(*data)->starting_time = timestamp_in_ms();
+	while (index < (*data)->number_of_philos)
+	{
+		pthread_create(&(*data)->philo->philosopher, NULL, philos_life, (void *)(*data)->philo);
+		(*data)->philo = (*data)->philo->next;
+		index++;		
+	}
 	while (1)
 	{
-		while (index < (*data)->number_of_philos)
-		{
-			pthread_create(&(*data)->philo->philosopher, NULL, philos_life, (void *)(*data)->philo);
-			// usleep(1);
-			(*data)->philo = (*data)->philo->next;
-			index++;		
-		}
-
-
-		// (*data)->dining_started = true;
-		// if (!all_alive(data))
-		// 	break ;
+		if (!all_alive(data))
+			break ;
 	}
 }
 

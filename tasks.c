@@ -57,9 +57,9 @@ void	sleeping(t_philo *philo)
 void	died(t_philo *philo)
 {
 	pthread_mutex_lock(philo->philo_dead_mutex);
+	safe_printf(philo, "died");
 	*philo->philo_dead = true;
 	pthread_mutex_unlock(philo->philo_dead_mutex);
-	safe_printf(philo, "died");
 }
 
 bool	all_alive(t_data **data)
