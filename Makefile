@@ -6,7 +6,7 @@ data = philo
 SRC_DIR = src
 OBJ_DIR = obj
 
-SRCS = error_message.c exit_functions.c \
+SRCS = error_message.c clean_up.c \
        input_checks.c lst_functions.c main.c parsing.c \
        tasks.c utils.c
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

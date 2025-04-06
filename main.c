@@ -40,17 +40,16 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 
-	data = ft_calloc(sizeof(t_data) + 1, 1);
+	data = ft_calloc(sizeof(t_data), 1);
 	if (!data)
 		return (error_message("Allocation failed!"), 1);
 	if (wrong_input(ac, &av[1]))
 		return (free(data), error_message("Put only numbers!"), 1);
 	if (parse_and_init_philo(&data, av) == 1)
 		return (error_message("Input not valid!"), 1);
-	philo_while_loop(&data);
-
-
-	// clean_up(&data);
-	// free_philos(data->philo);
-	// free(data);
+	if (data->number_of_philos > 1)
+		philo_while_loop(&data);
+	// else
+		// single_philo_loop();
+	clean_up(&data);
 }

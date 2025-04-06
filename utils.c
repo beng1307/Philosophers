@@ -77,12 +77,3 @@ void	safe_printf(t_philo *philo, char *str)
 		printf("%zu %d %s\n", timestamp_in_ms() - *philo->starting_time, philo->id, str);
  	pthread_mutex_unlock(philo->print_mutex);
 }
-
-void	free_that(void **to_free)
-{
-	if (*to_free)
-	{
-		free(*to_free);
-		*to_free = NULL;
-	}
-}
