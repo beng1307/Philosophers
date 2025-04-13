@@ -58,7 +58,7 @@ typedef struct	s_data
 
 
 // Utils
-void		free_that(void **to_free);
+void		save_free(void **to_free);
 size_t		ft_strlen(char *str);
 size_t		philo_atoi(const char *str);
 void		*ft_calloc(size_t nmemb, size_t size);
@@ -96,7 +96,7 @@ int		parse_and_init_philo(t_data **data, char **av);
 
 // Clean up
 void	clean_up(t_data **data);
-void    free_philos(t_philo *philos);
+void    free_philos(t_data **data);
 
 
 #endif

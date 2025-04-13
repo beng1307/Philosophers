@@ -36,6 +36,11 @@ static void	philo_while_loop(t_data **data)
 	}
 }
 
+// static void	single_philo_loop(t_data **data)
+// {
+
+// }
+
 int	main(int ac, char **av)
 {
 	t_data	*data;
@@ -50,6 +55,6 @@ int	main(int ac, char **av)
 	if (data->number_of_philos > 1)
 		philo_while_loop(&data);
 	// else
-		// single_philo_loop();
+	// 	single_philo_loop();
 	clean_up(&data);
 }
